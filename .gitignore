@@ -6,6 +6,6 @@ __pycache__
 .idea
 .vscode
 *.log
-product_pics
+uploads
 .DS_Store
 settings_local.py
