@@ -6,10 +6,16 @@
      <div class="card-body">
          <h5 class="card-title">Product: {{ product.name }}
                <a href="{% url 'webapp:product_view' product.pk %}" class="card-link"><i class="fas fa-eye"></i></a>
+             {% if perms.webapp.change_product %}
              <a href="{% url 'webapp:product_update' product.pk %}" class="card-link"><i class="fas fa-edit"></i></a>
+             {% endif%}
+          {% if perms.webapp.delete_product %}
          <a href="{% url 'webapp:product_delete' product.pk %}" class="card-link"><i class="fas fa-trash-alt"></i></a></h5></h5>
+     {% endif %}
          <h6 class="card-subtitle mb-2 text-muted">Category: {{ product.category }}</h6>
+          {% if user.is_authenticated %}
           <a href="{% url 'webapp:review_add' product.pk %}" class="card-link">Add your review for this product</a>
+         {% endif %}
      </div>
 </div>
     {% endfor %}

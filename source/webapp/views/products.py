@@ -5,6 +5,7 @@ from django.views.generic import ListView, UpdateView, DeleteView, DetailView, C
 from webapp.forms import ProductForm
 from webapp.models import Product, Review
 from django.db.models import Avg
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class IndexView(ListView):
@@ -27,32 +28,35 @@ class ProductView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        reviews = self.object.reviews.order_by("-creation_date")
+        reviews = self.object.reviews.filter(moderation_status=True)
         context['reviews'] = reviews
         return context
 
 
-class ProductAddView(CreateView):
+class ProductAddView(PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'products/product_create.html'
+    permission_required = 'webapp.add_product'
 
     def get_success_url(self):
         return reverse('webapp:product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'products/product_update.html'
+    permission_required = 'webapp.change_product'
 
     def get_success_url(self):
         return reverse('webapp:product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = 'products/product_delete.html'
     success_url = reverse_lazy('webapp:index')
+    permission_required = 'webapp.delete_product'
 
 

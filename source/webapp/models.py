@@ -40,8 +40,6 @@ class Review(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Created at")
     update_date = models.DateTimeField(auto_now_add=True, verbose_name="Updated at")
 
-
-
     def __str__(self):
         return f'{self.author} - {self.product}'
 

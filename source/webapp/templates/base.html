@@ -38,9 +38,11 @@
                     <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Log Out</a>
                 </li>
             {% endif %}
+             {% if perms.webapp.add_product %}
             <li class="nav-item">
                     <a class="nav-link" href="{% url 'webapp:product_add' %}">Add product</a>
                 </li>
+            {% endif %}
             </ul>
         </div>
     </div>

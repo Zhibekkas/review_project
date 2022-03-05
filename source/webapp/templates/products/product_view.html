@@ -12,14 +12,16 @@
     <p>Average: {{ average }}</p>
     <h3>Reviews</h3>
     {% for review in reviews %}
-        <span>{{ forloop.counter }}</span>
-        <h4>{{ review.author }}</h4>
+        <a href="{% url 'accounts:detail' user.pk %}"><h4>{{ review.author }}</h4></a>
         <p>Email: {{ review.author.email }}</p>
         <p>Review: {{ review.review_text }}</p>
         <p>Rating: {{ review.rating }}</p>
+        {% if perms.webapp.change_review  or request.user == review.author %}
         <a href="{% url 'webapp:review_update' review.pk %}" class="card-link">Update this review</a>
-
+{% endif %}
+         {% if perms.webapp.delete_review or request.user == review.author %}
         <a href="{% url 'webapp:review_delete' review.pk %}" class="card-link">Delete this review</a>
+        {% endif %}
 {% endfor %}
      {% if product.product_pic %}
         <img class="photos" src="{{ product.product_pic.url }}" width="200" height="200" alt="product picture">

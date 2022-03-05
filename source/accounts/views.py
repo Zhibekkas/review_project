@@ -1,15 +1,14 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, ListView
 from django.contrib.auth import get_user_model, update_session_auth_hash
-
-User = get_user_model()
 from accounts.forms import UserCreationForm, UserChangeForm, ProfileChangeForm, PasswordChangeForm
 from accounts.models import Profile
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+User = get_user_model()
 
 
 class RegisterView(CreateView):
@@ -33,7 +32,7 @@ class RegisterView(CreateView):
         return next_url
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(DetailView):
     model = get_user_model()
     template_name = 'user_detail.html'
     context_object_name = 'user_obj'
@@ -108,3 +107,6 @@ class UserPasswordChangeView(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return self.request.user == self.get_object()
+
+
+
