@@ -24,6 +24,20 @@
             <ul class="navbar-nav">
                 {% block navbar %}
                 {% endblock %}
+            {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.get_full_path }}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:register' %}?next={{ request.get_full_path }}">Sign Up</a>
+                </li>
+            {% endif %}
+               {% if user.is_authenticated %}
+                   <li class="nav-link">Hi, <a href="{% url 'accounts:detail' user.pk %}">{{ user.username }}</a>!</li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Log Out</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                     <a class="nav-link" href="{% url 'webapp:product_add' %}">Add product</a>
                 </li>

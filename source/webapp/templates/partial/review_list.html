@@ -1,0 +1,9 @@
+{% for review in reviews %}
+    <div class="box">
+        <h3><a href="{% url "webapp:product_view" review.pk %}">{{ review.product.name }}</a></h3>
+        <p>Review: {{ review.review_text }}</p>
+        <p>Rating: {{ review.rating }}</p>
+    </div>
+{% empty %}
+    <h2 class="text-center">No reviews</h2>
+{% endfor %}

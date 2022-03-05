@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}User{% endblock %}
+{% block content %}
+    <h1>Personal page {{ user_obj.get_full_name|default:user_obj.username }}</h1>
+    {% if user_obj.profile.profile_pic %}
+        <img class="avatar" src="{{ user_obj.profile.profile_pic.url }}" width="250" height="250" alt="user picture">
+    {% endif %}
+    <p>User name: {{ user_obj.username }}</p>
+    <p>Name: {{ user_obj.first_name }}</p>
+    <p>Surname: {{ user_obj.last_name }}</p>
+    <p>Email: {{ user_obj.email }}</p>
+    {% block menu_links %}
+        {% if request.user == user_obj %}
+    <li><a href="{% url "accounts:password_change" user_obj.pk %}">Change password</a></li>
+     <li><a href="{% url 'accounts:change' user_obj.pk %}">Edit personal details</a></li>
+        {% endif %}
+    {% endblock %}
+    <h2 class="text-center clear">Reviews:</h2>
+    {% include 'partial/review_list.html' %}
+{% endblock %}
