@@ -3,7 +3,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView, CreateView
 
 from webapp.forms import ProductForm
-from webapp.models import Product
+from webapp.models import Product, Review
+from django.db.models import Avg
 
 
 class IndexView(ListView):
@@ -12,10 +13,23 @@ class IndexView(ListView):
     model = Product
     ordering = ['category', 'name']
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        for product in Product.objects.all():
+            average = Review.objects.filter(product__id=product.id).aggregate(Avg('rating'))
+        context['average'] = average
+        return context
+
 
 class ProductView(DetailView):
     model = Product
     template_name = 'products/product_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reviews = self.object.reviews.order_by("-creation_date")
+        context['reviews'] = reviews
+        return context
 
 
 class ProductAddView(CreateView):

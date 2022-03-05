@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
+from django.db.models import Sum
+
 User = get_user_model()
 DEFAULT_CATEGORY = 'other'
 CATEGORY_CHOICES = (
@@ -37,6 +39,8 @@ class Review(models.Model):
     moderation_status = models.BooleanField(default=False, verbose_name='Moderation Status')
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Created at")
     update_date = models.DateTimeField(auto_now_add=True, verbose_name="Updated at")
+
+
 
     def __str__(self):
         return f'{self.author} - {self.product}'

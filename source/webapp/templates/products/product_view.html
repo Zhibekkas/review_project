@@ -9,9 +9,22 @@
     {% if not product.description %}
         <p>No description on this product</p>
     {% endif %}
+    <p>Average: {{ average }}</p>
+    <h3>Reviews</h3>
+    {% for review in reviews %}
+        <span>{{ forloop.counter }}</span>
+        <h4>{{ review.author }}</h4>
+        <p>Email: {{ review.author.email }}</p>
+        <p>Review: {{ review.review_text }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        <a href="{% url 'webapp:review_update' review.pk %}" class="card-link">Update this review</a>
+
+        <a href="{% url 'webapp:review_delete' review.pk %}" class="card-link">Delete this review</a>
+{% endfor %}
      {% if product.product_pic %}
         <img class="photos" src="{{ product.product_pic.url }}" width="200" height="200" alt="product picture">
-     {% else %}
-         <img class="photos" src="static/blank-profile.png" width="200" height="200" alt="product picture">
+     {% endif %}
+     {% if not product.product_pic %}
+         <img class="photos" src="static/images/blank-profile.png" width="200" height="200" alt="blank-profile">
     {% endif %}
 {% endblock %}
