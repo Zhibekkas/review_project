@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Delete Product{% endblock %}
+{% block content %}
+    <form action="{% url "webapp:product_delete" product.pk %}" method="POST">
+    {% csrf_token %}
+        <h2>Are you sure you want to delete {{ product.name }}?</h2>
+        <input class="btn btn-primary mb-3" type="submit" value="YES">
+    </form>
+    <a class="btn btn-primary" href="{% url "webapp:index" %}">NO</a>
+{% endblock %}

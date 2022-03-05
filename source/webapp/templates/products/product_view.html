@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Product details {{ product.pk }}{% endblock %}
+{% block content %}
+    <h1>Product: {{ product.name }}</h1>
+    {% if product.description %}
+        <p>Description: {{ product.description }}</p>
+    {% endif %}
+    {% if not product.description %}
+        <p>No description on this product</p>
+    {% endif %}
+     {% if product.product_pic %}
+        <img class="photos" src="{{ product.product_pic.url }}" width="200" height="200" alt="product picture">
+     {% else %}
+         <img class="photos" src="static/blank-profile.png" width="200" height="200" alt="product picture">
+    {% endif %}
+{% endblock %}
